@@ -10,3 +10,12 @@
     "teddy" {:foo #{"bobby" "teddy"}}
     "al"    {:foo #{"bobby" "teddy" "al"}}
     "teddy" {:foo #{"bobby" "teddy" "al"}} ))
+
+(deftest deregister-test
+  (reset! registrations {:foo #{"bobby", "teddy", "al"} :bar #{"a", "b", "c"}})
+  (are [url, ans] (= ans (deregister! url))
+    "bobby" {:foo #{"teddy", "al"} :bar #{"a", "b", "c"}}
+    "bobby" {:foo #{"teddy", "al"} :bar #{"a", "b", "c"}}
+    "teddy" {:foo #{"al"} :bar #{"a", "b", "c"}}
+    "al"    {:foo #{} :bar #{"a", "b", "c"}}
+    "teddy" {:foo #{} :bar #{"a", "b", "c"}} ))

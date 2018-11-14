@@ -25,9 +25,10 @@
   way to remove a url without having to worry where it might have been
   registered."
   [url]
-  (if (string? url)
+  (when (string? url)
     (doseq [k (keys @registrations)]
-      (swap! registrations update k disj url))))
+      (swap! registrations update k disj url))
+    @registrations))
 
 (defn targets
   "Function to return a sequence of targets for a supplied 'webhook' name. The
