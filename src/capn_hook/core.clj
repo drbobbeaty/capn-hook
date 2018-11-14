@@ -10,7 +10,7 @@
 
 (defonce registrations (atom {}))
 
-(defn register
+(defn register!
   "Function to add the url to the set of all targets for the supplied webhook.
   This will be a set of urls, so there is no chance of duplication within the
   registration."
@@ -20,7 +20,7 @@
       (swap! registrations update wh conj url)
       (swap! registrations assoc wh #{url}))))
 
-(defn deregister
+(defn deregister!
   "Function to remove a url from *all* webhook registrations. This is a simple
   way to remove a url without having to worry where it might have been
   registered."
