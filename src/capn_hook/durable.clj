@@ -4,7 +4,8 @@
   Datadog monitoriing of the queue sizes."
   (:require [clojure.core.memoize :as memo]
             [clojure.tools.logging :refer [infof warnf errorf]]
-            [durable-queue :refer [queues put! take! complete! retry! stats]]
+            [durable-queue :refer [queues put! take! complete! retry! stats
+                                   delete!]]
             [capn-hook.client :refer [try-times do-post*]]
             [capn-hook.logging :refer [log-execution-time!]]))
 
@@ -50,3 +51,9 @@
         cnt))))
 
 (log-execution-time! process! {:level :debug, :msg-fn (fn [ret] (format "%s msgs" ret))})
+
+(defn flush!
+  "Function to remove all data stored in all queues we're currently managing.
+  This will do so without any undo capability."
+  []
+  (delete! q))

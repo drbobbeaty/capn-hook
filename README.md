@@ -40,6 +40,11 @@ a simple HTTP POST. More than that? Nope.
 
 ## Usage
 
+Add the necessary dependency to your project:
+```clojure
+  [org.clojars.drbobbeaty/capn-hook "0.1.0"]
+```
+
 Using _Cap'n Hook_ is really a two-part process: you have to have some
 _registration_ of the call-backs to make, and then you have to have a function
 to send a call-back to those registered URLs. Since call-backs are only really

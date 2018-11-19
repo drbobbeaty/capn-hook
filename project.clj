@@ -17,12 +17,8 @@
                  [cheshire "5.5.0"]
                  ;; nice HTTP client library
                  [clj-http "3.7.0"]
-                 ;; nice UUID library (type 1 included)
-                 [com.fasterxml.uuid/java-uuid-generator "3.1.3"]
                  ;; durable disk-based queues
                  [org.clojars.drbobbeaty/durable-queue "0.1.8" :exclusions [riddley]]
                  ;; simple task scheduling for the retries
                  [overtone/at-at "1.2.0"]]
-  :profiles {:dev {:dependencies [[org.clojure/clojure "1.8.0"]]}}
-  ; :main capn-hook.main
-  )
+  :profiles {:dev {:dependencies [[org.clojure/clojure "1.8.0"]]}})

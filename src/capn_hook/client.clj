@@ -8,14 +8,14 @@
             [clojure.tools.logging :refer [error errorf info infof warnf debugf]]))
 
 ;; Definition of the connection manager for all calls in this namespace to
-;; the Sulley Service. The point it to make a set of pooled connections that
-;; will speed up the hits to the Sulley Service within the simplified context
+;; the registered clients. The point it to make a set of pooled connections
+;; that will speed up the hits to the clients within the simplified context
 ;; of this namespace.
 (defonce cm (conn/make-reusable-conn-manager {:timeout 120
                                               :threads 20
                                               :default-per-route 6}))
 
-;; ## Simplified HTTP requests for the obvious calls
+;; Simplified HTTP requests for the obvious calls
 
 (defn do-get*
   "Function to use the connection manager to save time, but NOT retry

@@ -2,11 +2,17 @@
   "This namespace is the main user-facing API for the library that will send
   all the webhook messages to the registered listeners. If one is never
   listening, we'll keep trying to send to it for a very long time."
-  (:require [capn-hook.durable :refer [enqueue! process!]]
+  (:require [capn-hook.durable :refer [enqueue! process!] :as chd]
             [clj-time.core :refer [now]]
             [clojure.tools.logging :refer [infof warnf errorf]]
             [capn-hook.logging :refer [log-execution-time!]]
             [overtone.at-at :as aa]))
+
+;;
+;; Create a simple, single-process registration system so that folks can get
+;; started without having to create a more complex, multi-box state and
+;; registration system.
+;;
 
 (defonce registrations (atom {}))
 
@@ -42,6 +48,10 @@
   [hook]
   (or (if (keyword? hook) (hook @registrations)) []))
 
+;;
+;; Functions to send the callbacks to the registered clients...
+;;
+
 (defn fire!
   "Function to take a representation of a sequence of urls, and a message
   to send to all registered targets of that particular webhook. The first
@@ -65,13 +75,13 @@
 
 (log-execution-time! fire! {:level :debug})
 
-; (defn flush!
-;   "Function to flush the queue of *all* pending callbacks so that anything
-;   that was in the queue is now lost. This is a permanent operation!"
-;   []
-;   )
+(defn flush!
+  "Function to flush the queue of *all* pending callbacks so that anything
+  that was in the queue is now lost. This is a permanent operation!"
+  []
+  (chd/flush!))
 
-; (log-execution-time! flush! {:level :debug})
+(log-execution-time! flush! {:level :debug})
 
 ;;
 ;; Let's now make a way to start a worker process that will send out the
